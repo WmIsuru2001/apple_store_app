@@ -1,5 +1,7 @@
 import 'package:apple/components/buttons/custom_button.dart';
 import 'package:apple/screens/auth_screen/widgets/custom_text_field.dart';
+import 'package:apple/screens/home_page/home_page.dart';
+import 'package:apple/utils/custom_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +13,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  bool isSignUp = true;
+  String type = 'signup';
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isSignUp ? "Create Account" : "Sign In",
+                    type == 'signup'
+                        ? "Create Account"
+                        : type == 'signin'
+                        ? "Sign In"
+                        : "Forgot Password",
                     style: GoogleFonts.poppins(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -53,9 +59,11 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   Text(
-                    isSignUp
+                    type == 'signup'
                         ? "Sign Up with Your User Account"
-                        : "Sign In to Your Account",
+                        : type == 'signin'
+                        ? "Sign In to Your Account"
+                        : "Reset Your Password with Your Email",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -67,17 +75,23 @@ class _AuthScreenState extends State<AuthScreen> {
                     hintText: 'Email',
                     prefixIcon: Icons.email_outlined,
                   ),
-                  CustomTextField(
-                    hintText: 'Password',
-                    prefixIcon: Icons.lock_outlined,
-                    isPassword: true,
-                  ),
-                  isSignUp
+                  type != 'forgot'
+                      ? CustomTextField(
+                          hintText: 'Password',
+                          prefixIcon: Icons.lock_outlined,
+                          isPassword: true,
+                        )
+                      : SizedBox(),
+                  type != 'signin'
                       ? SizedBox()
                       : Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                type = 'forgot';
+                              });
+                            },
                             child: Text(
                               "Forgot Password?",
                               style: GoogleFonts.poppins(
@@ -88,7 +102,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
-                  isSignUp
+                  type == 'signup'
                       ? CustomTextField(
                           hintText: 'Confirm Password',
                           prefixIcon: Icons.lock_outlined,
@@ -98,19 +112,31 @@ class _AuthScreenState extends State<AuthScreen> {
                   SizedBox(height: 20),
                   CustomButton(
                     size: size,
-                    text: isSignUp ? "Sign Up" : "Sign In",
+                    text: type == 'signup'
+                        ? "Sign Up"
+                        : type == 'signin'
+                        ? "Sign In"
+                        : "Reset Password",
                     ontap: () {
-                      setState(() {
-                        isSignUp = !isSignUp;
-                      });
+                      CustomNavigator.push(context, HomePage());
                     },
                   ),
                   CustomButton(
                     size: size,
-                    text: isSignUp ? "Sign In" : "Sign Up",
+                    text: type == 'signup'
+                        ? "Sign In"
+                        : type == 'signin'
+                        ? "Sign Up"
+                        : "Cancel",
                     ontap: () {
                       setState(() {
-                        isSignUp = !isSignUp;
+                        if (type == 'signin') {
+                          type = 'signup';
+                        } else if (type == 'signup') {
+                          type = 'signin';
+                        } else {
+                          type = 'signup';
+                        }
                       });
                     },
                     bgcolor: Colors.white,
