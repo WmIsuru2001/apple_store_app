@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO_implement initState
     super.initState();
     Timer(Duration(seconds: 3), () {
       CustomNavigator.pushReplacement(context, AuthScreen());

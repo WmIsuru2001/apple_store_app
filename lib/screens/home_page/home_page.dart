@@ -1,6 +1,6 @@
-import 'package:apple/data/demo_data.dart';
 import 'package:apple/screens/home_page/widget/catogories.dart';
 import 'package:apple/screens/home_page/widget/custom_app_bar.dart';
+import 'package:apple/screens/home_page/widget/product_grid.dart';
 import 'package:apple/screens/home_page/widget/slider.dart';
 import 'package:flutter/material.dart';
 
@@ -28,78 +28,86 @@ class _HomePageState extends State<HomePage> {
                 CustomAppBar(),
                 SizedBox(height: 8),
                 NewSlider(size: size),
-                Categories(),
-                SizedBox(height: 8),
-                Text(
-                  'The latest.',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                Text('Take a look at what’s new, right now.'),
-                SizedBox(height: 8),
-                GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: DemoData.products.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                SizedBox(height: 15),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        shape: BeveledRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CustomIconButton(
+                          text: 'My Profile',
+                          icon: Icons.emoji_people,
+                          bgColor: Colors.green.shade100,
+                          color: Colors.green,
                         ),
-                        color: Colors.white,
-                        elevation: 8,
-                        shadowColor: Colors.grey,
-                        child: Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  DemoData.products[index].image,
-                                  width: size.width * 0.4,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  DemoData.products[index].title,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  '\$${DemoData.products[index].price}', // Clean interpolation
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        CustomIconButton(
+                          text: 'Favorites',
+                          icon: Icons.favorite,
+                          bgColor: Colors.red.shade100,
+                          color: Colors.red,
                         ),
-                      ),
-                    );
-                  },
+                        CustomIconButton(
+                          text: 'My Orders',
+                          icon: Icons.shopping_cart_rounded,
+                          bgColor: Colors.blue.shade100,
+                          color: Colors.blue,
+                        ),
+                        CustomIconButton(
+                          text: 'Website',
+                          icon: Icons.language,
+                          bgColor: Colors.purple.shade100,
+                          color: Colors.purple,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+                Categories(),
+                ProductGrid(size: size),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomIconButton extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final Color bgColor;
+  final Color color;
+  const CustomIconButton({
+    super.key,
+    required this.text,
+    required this.icon,
+    this.bgColor = Colors.blue,
+    this.color = Colors.blue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CircleAvatar(
+          backgroundColor: bgColor,
+          child: Icon(icon, color: color),
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }
