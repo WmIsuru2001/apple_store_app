@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomButton extends StatelessWidget {
@@ -10,6 +11,7 @@ class CustomButton extends StatelessWidget {
     this.fontColor = Colors.white,
     this.borderColor = Colors.black,
     this.ontap,
+    this.icon,
   });
 
   final Size size;
@@ -18,6 +20,7 @@ class CustomButton extends StatelessWidget {
   final Color fontColor;
   final Color borderColor;
   final VoidCallback? ontap;
+  final FaIcon? icon; // Nullable icon
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +37,22 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
-            child: Text(
-              text,
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: fontColor,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  text,
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: fontColor,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

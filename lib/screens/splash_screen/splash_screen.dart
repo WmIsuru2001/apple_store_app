@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:apple/screens/auth_screen/auth_screen.dart';
 import 'package:apple/utils/custom_navigator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,8 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO_implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () {
-      CustomNavigator.pushReplacement(context, AuthScreen());
+    Timer(const Duration(seconds: 6), () {
+      CustomNavigator.pushReplacement(context, const AuthScreen());
     });
   }
 
@@ -31,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Image.asset(
               "assets/images/logo.png",
-              width: size.width * 0.4,
+              width: size.width * 0.3,
             ),
           ),
           Align(
@@ -41,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CupertinoActivityIndicator(color: Colors.grey.shade700),
+                  //CupertinoActivityIndicator(color: Colors.grey.shade700),
                   Text(
                     'From Apple.Inc',
                     style: TextStyle(color: Colors.grey.shade700),
